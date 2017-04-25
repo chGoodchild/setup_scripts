@@ -1,0 +1,2 @@
+* Fix the grub problem
+* Avoid the need for two seperate setup scripts
