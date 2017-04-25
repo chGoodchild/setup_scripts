@@ -78,8 +78,8 @@ cd
 # Install dropbox - Assuming that its a 64 bit machine
 # Dropbox might have a graphical install that requires user interaction, so I will install it last.
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-~/.dropbox-dist/dropboxd
-echo "~/.dropbox-dist/dropboxd" >> ~/.profile
+~/.dropbox-dist/dropboxd &
+echo "~/.dropbox-dist/dropboxd &" >> ~/.profile
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
