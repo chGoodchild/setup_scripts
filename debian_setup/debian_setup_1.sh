@@ -24,13 +24,13 @@ cd
 # I am especially interested in the aliases like ll instead of ls -l
 # https://www.debinux.de/2013/10/debian-shell-nach-neuinstallation-umgaenglicher-machen/
 
-dpkg-reconfigure dash
-source /etc/bash.bashrc
+sudo dpkg-reconfigure dash
+sudo source /etc/bash.bashrc
 # Make prompts colorful:
 # echo 'export PS1="[\u@\[\e[32;1m\]\H \[\e[0m\]\w]\$ "' >> /etc/bash.bashrc
-echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc
-echo "alias ll='ls -la --color=auto'" >> /etc/bash.bashrc
-echo "alias octave='octave --force-gui'" >> /etc/bash.bashrc
+sudo echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc
+sudo echo "alias ll='ls -la --color=auto'" >> /etc/bash.bashrc
+sudo echo "alias octave='octave --force-gui'" >> /etc/bash.bashrc
 
 
 ###############################################
@@ -66,20 +66,20 @@ sudo apt-get -y install octave octave-doc octave-htmldoc
 
 # Install svn
 sudo apt-get -y install svn
-mkdir svn
+sudo mkdir svn
 
 # Install git
 sudo apt-get -y install git
-#mkdir git
-#cd git
-#chown git chandran
-#git clone "https://github.com/chGoodchild/setup_scripts.git"
-#cd
+sudo mkdir git
+cd git
+git clone "https://github.com/chGoodchild/setup_scripts.git"
+cd
 
 # Install dropbox - Assuming that its a 64 bit machine
 # Dropbox might have a graphical install that requires user interaction, so I will install it last.
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 ~/.dropbox-dist/dropboxd
+echo "~/.dropbox-dist/dropboxd" >> ~/.profile
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
