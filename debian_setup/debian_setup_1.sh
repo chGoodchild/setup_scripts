@@ -47,6 +47,11 @@ sudo apt-get -y upgrade
 # Sadly this is not the same as gnome-terminal in Ubuntu. I have to find something that I like.
 sudo apt-get -y install gnome-terminal
 
+# Add German language
+sudo apt-get -y install kde-l10n-de
+sudo apt-get -y install aspell-de
+sudo emacs /etc/locale.gen &
+
 # Install emacs
 sudo apt-get -y install emacs
 
@@ -74,6 +79,16 @@ sudo mkdir git
 cd git
 git clone "https://github.com/chGoodchild/setup_scripts.git"
 cd
+
+# Install wine
+sudo apt-get -y install wine
+
+# Install foxit reader (windows version using wine)
+# cd ~
+# mkdir software
+# cd software
+# wget https://download.heise.de/files/mXC16oruU636pqF0FtzvVg/225117/FoxitReaderPortable_8.1.1.1015.paf.exe?expires=1493200244
+# wine FoxitReaderPortable_8.1.1.1015.paf.exe
 
 # Install dropbox - Assuming that its a 64 bit machine
 # Dropbox might have a graphical install that requires user interaction, so I will install it last.
