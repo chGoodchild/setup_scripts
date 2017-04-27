@@ -80,8 +80,29 @@ cd git
 git clone "https://github.com/chGoodchild/setup_scripts.git"
 cd
 
+# Install rpm
+sudo apt-get -y install rpm
+
+# Install Alien in order to convert RPM files into DEB files
+# https://askubuntu.com/questions/2988/how-do-i-install-and-manage-rpms
+sudo apt-get -y install alien
+# sudo alien my_package.rpm
+# sudo dpkg -i my_package.deb
+
 # Install wine
 sudo apt-get -y install wine
+
+# Install virtual box
+sudo apt-get -y install software-properties-common python-software-properties
+sudo apt-add-repository "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib"
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+sudo apt-get -y update
+sudo apt-get -y install virtualbox-5.0 dkms
+sudo apt-get -y --force-yes install virtualbox-5.1
+
+# Make USB work in virtual box
+# https://askubuntu.com/questions/25596/how-to-set-up-usb-for-virtualbox
+sudo usermod -aG vboxusers chandran  # Add myself to the virtual box group
 
 # Install foxit reader (windows version using wine)
 # cd ~
@@ -93,7 +114,7 @@ sudo apt-get -y install wine
 # Install dropbox - Assuming that its a 64 bit machine
 # Dropbox might have a graphical install that requires user interaction, so I will install it last.
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-~/.dropbox-dist/dropboxd &
+#~/.dropbox-dist/dropboxd &
 echo "~/.dropbox-dist/dropboxd &" >> ~/.profile
 
 # Uninstall packages that have become redundant.
