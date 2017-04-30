@@ -70,13 +70,15 @@ sudo service network-manager restart
 # Sadly this is not the same as gnome-terminal in Ubuntu. I have to find something that I like.
 sudo apt-get -y install gnome-terminal
 
+# Install emacs
+# http://www.seaandsailor.com/emacs-config.html
+sudo apt-get -y install emacs
+sudo apt-get -y install texlive auctex
+
 # Add German language
 sudo apt-get -y install kde-l10n-de
 sudo apt-get -y install aspell-de
 sudo emacs /etc/locale.gen &
-
-# Install emacs
-sudo apt-get -y install emacs
 
 # Install thunderbird
 sudo apt-get -y install thunderbird
