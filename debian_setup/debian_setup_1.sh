@@ -33,10 +33,21 @@ sudo echo "alias ll='ls -la --color=auto'" >> /etc/bash.bashrc
 sudo echo "alias octave='octave --force-gui'" >> /etc/bash.bashrc
 sudo echo "alias quartus='cd && ./quartus/quartus/bin/quartus &'" >> /etc/bash.bashrc
 
+# Make the WiFi work! - Add "non-free" sources...
+# https://www.linux.com/learn/how-install-firmware-debian-enable-wireless-video-or-sound
+# http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/
+sudo echo "deb http://httpredir.debian.org/debian jessie main contrib non-free" >> /etc/apt/sources.list
+sudo echo "deb-src http://httpredir.debian.org/debian jessie main contrib non-free" >> /etc/apt/sources.list
+
+sudo echo "deb http://httpredir.debian.org/debian jessie-updates main contrib non-free" >> /etc/apt/sources.list
+sudo echo "deb-src http://httpredir.debian.org/debian jessie-updates main contrib non-free" >> /etc/apt/sources.list
+
+sudo echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list
+sudo echo "deb-src http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list
 
 ###############################################
 
-# Update /etc/apt/sources.lis
+# Update /etc/apt/sources.list
 sudo apt-get -y update
 
 # Upgrade the already installed packages
@@ -44,6 +55,17 @@ sudo apt-get -y upgrade
 
 # Upgrade packages that have not yet been installed (kernel)
 # sudo apt-get dist-upgrade
+
+# Fix WiFi:
+sudo apt-get -y install firmware-b43-installer
+sudo apt-get -y install firmware-linux-nonfree
+sudo modprobe b43
+sudo apt-get -y install linux-image-$(uname -r|sed 's,[^-]*-[^-]*-,,') linux-headers-$(uname -r|sed 's,[^-]*-[^-]*-,,') broadcom-sta-dkms
+modprobe -r b44 b43 b43legacy ssb brcmsmac bcma
+modprobe wl
+# Finally this is the only thing that worked:
+sudo apt-get -y install firmware-*
+sudo service network-manager restart
 
 # Sadly this is not the same as gnome-terminal in Ubuntu. I have to find something that I like.
 sudo apt-get -y install gnome-terminal
@@ -100,6 +122,13 @@ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key a
 sudo apt-get -y update
 sudo apt-get -y install virtualbox-5.0 dkms
 sudo apt-get -y --force-yes install virtualbox-5.1
+
+# Install GHDL
+sudo apt-get -y install gnat-gps
+sudo apt-get -y install libgnarl-6.so.1
+cd ~ && cd software/ghdl/bin/ && chmod +x *
+# Launch:
+sudo ./ghdl &
 
 
 # Make USB work in virtual box

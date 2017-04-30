@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Licensing:
+# http://www.latticesemi.com/FileExplorer.aspx?media={BF21630A-4AA5-4D94-AA4E-9AF0A7DC42CC}&document_id=52032
+
 echo "Please enter the path to the tar installation file: "
 read path
 
