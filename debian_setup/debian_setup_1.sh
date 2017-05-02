@@ -73,12 +73,15 @@ sudo apt-get -y install gnome-terminal
 
 # Install emacs
 # http://www.seaandsailor.com/emacs-config.html
+# http://stackoverflow.com/questions/218512/how-can-i-change-the-language-in-emacs-when-using-ispell
 sudo apt-get -y install emacs
 sudo apt-get -y install texlive auctex
+
 
 # Add German language
 sudo apt-get -y install kde-l10n-de
 sudo apt-get -y install aspell-de
+sudo apt -y install texlive-lang-german
 sudo emacs /etc/locale.gen &
 
 # Install thunderbird
@@ -98,6 +101,9 @@ sudo apt-get -y install octave octave-doc octave-htmldoc
 # Install svn
 sudo apt-get -y install svn
 sudo mkdir svn
+
+# Install Vivado 
+sudo ./home/chandran/software/fpga/Xilinx_Vivado_SDK_2017.1_0415_1_Lin64.bin &
 
 # Install git
 sudo apt-get -y install git
