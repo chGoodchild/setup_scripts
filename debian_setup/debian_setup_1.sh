@@ -157,3 +157,13 @@ echo "~/.dropbox-dist/dropboxd &" >> ~/.profile
 sudo apt-get -y autoremove
 
 #echo $output
+
+# use better editor
+cd
+mkdir vim_repo
+cd vim_repo
+git init
+git clone https://github/thefux/gitTest
+mv .vim ~/.
+mv .vimrc ~/.
+# start using vi
