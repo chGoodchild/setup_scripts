@@ -32,7 +32,9 @@ sudo echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc
 sudo echo "alias ll='ls -la --color=auto'" >> /etc/bash.bashrc
 sudo echo "alias octave='octave --force-gui'" >> /etc/bash.bashrc
 sudo echo "alias quartus='cd && ./quartus/quartus/bin/quartus &'" >> /etc/bash.bashrc
+sudo echo "alias clean='alias clean='rm *~; rm *.class'" >> /etc/bash.bashrc
 sudo echo "export EDITOR='emacs'" >> ~/.bashrc
+
 
 # Make the WiFi work! - Add "non-free" sources...
 # https://www.linux.com/learn/how-install-firmware-debian-enable-wireless-video-or-sound
