@@ -35,7 +35,6 @@ sudo echo "alias quartus='cd && ./quartus/quartus/bin/quartus &'" >> /etc/bash.b
 sudo echo "alias clean='alias clean='rm *~; rm *.class'" >> /etc/bash.bashrc
 sudo echo "export EDITOR='emacs'" >> ~/.bashrc
 
-
 # Make the WiFi work! - Add "non-free" sources...
 # https://www.linux.com/learn/how-install-firmware-debian-enable-wireless-video-or-sound
 # http://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/
@@ -49,6 +48,9 @@ sudo echo "deb http://security.debian.org/ jessie/updates main contrib non-free"
 sudo echo "deb-src http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list
 
 ###############################################
+
+# Make the backspace button work in Nautilus.
+echo '(gtk_accel_path "<Actions>/ShellActions/Back" "BackSpace")' >> ~/.config/nautilus/accelsn
 
 # Update /etc/apt/sources.list
 sudo apt-get -y update

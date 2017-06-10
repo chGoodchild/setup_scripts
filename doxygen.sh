@@ -5,8 +5,8 @@
 # file. http://emacs-fu.blogspot.de/2009/01/commenting-your-functions.html
 sudo apt-get -y install doxymacs
 
-echo "(add-hook 'c-mode-common-hook" >> .emacs
-echo "  (lambda ()" >> .emacs
-echo "    (require 'doxymacs)" >> .emacs
-echo "    (doxymacs-mode t)" >> .emacs
-echo "    (doxymacs-font-lock)))" >> .emacs
+echo "(add-hook 'c-mode-common-hook" >> ~/.emacs
+echo "  (lambda ()" >> ~/.emacs
+echo "    (require 'doxymacs)" >> ~/.emacs
+echo "    (doxymacs-mode t)" >> ~/.emacs
+echo "    (doxymacs-font-lock)))" >> ~/.emacs
