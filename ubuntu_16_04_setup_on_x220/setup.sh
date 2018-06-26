@@ -32,6 +32,9 @@ sudo apt-get -y install arduino
 # Install rpm
 sudo apt-get -y install rpm
 
+# Install badblocks (if necessary). This is good for checking the integrity of flash memory.
+sudo apt-get -y install badblocks
+
 # Install Alien in order to convert RPM files into DEB files
 # https://askubuntu.com/questions/2988/how-do-i-install-and-manage-rpms
 sudo apt-get -y install alien
