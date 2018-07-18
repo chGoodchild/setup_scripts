@@ -47,10 +47,14 @@ sudo apt-get -y install alien
 # sudo alien my_package.rpm
 # sudo dpkg -i my_package.deb
 
+# Curl (for installing signal)
+sudo apt-get -y install curl
+
 # Signal messenger
 # Alternatively try: https://support.signal.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-
-wget -q https://updates.signal.org/desktop/apt/keys.asc -O- | sudo apt-key add - 
-sudo apt-get -y install signal-desktop 
+curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt -y install signal-desktop
 
 # Skype
 wget https://repo.skype.com/latest/skypeforlinux-64.deb
@@ -74,4 +78,3 @@ sudo apt-get -y install dropbox
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
-
