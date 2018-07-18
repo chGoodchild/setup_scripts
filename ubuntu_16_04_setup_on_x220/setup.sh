@@ -22,6 +22,9 @@ sudo apt-get -y install enigmail-locale-de
 # https://askubuntu.com/questions/616827/how-to-force-octave-to-launch-in-gui-mode-from-the-dock
 sudo apt-get -y install octave octave-doc octave-htmldoc
 
+# Install git
+sudo apt-get -y install git
+
 # Install svn
 sudo apt-get -y install svn
 sudo mkdir svn
