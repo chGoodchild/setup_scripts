@@ -32,6 +32,9 @@ sudo mkdir svn
 # Install Arduino
 sudo apt-get -y install arduino
 
+# Install openVpn
+sudo apt-get -y install openvpn easy-rsa 
+
 # Install rpm
 sudo apt-get -y install rpm
 
@@ -43,6 +46,31 @@ sudo apt-get -y install badblocks
 sudo apt-get -y install alien
 # sudo alien my_package.rpm
 # sudo dpkg -i my_package.deb
+
+# Signal messenger
+# Alternatively try: https://support.signal.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-
+wget -q https://updates.signal.org/desktop/apt/keys.asc -O- | sudo apt-key add - 
+sudo apt-get -y install signal-desktop 
+
+# Skype
+wget https://repo.skype.com/latest/skypeforlinux-64.deb
+sudo dpkg -i skypeforlinux-64.deb
+sudo apt -y install -f
+
+# Gimp
+sudo apt-get -y install gimp
+
+# Xournal
+Sudo apt-get -y install xournal
+
+# Brave
+wget -O brave.deb https://laptop-updates.brave.com/latest/dev/ubuntu64
+sudo dpkg -i brave.deb
+sudo apt-get -f -y install
+
+# Dropbox
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1C61A2656FB57B7E4DE0F4C1FC918B335044912E  
+sudo apt-get -y install dropbox 
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
