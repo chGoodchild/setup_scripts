@@ -68,12 +68,19 @@ sudo apt -y install -f
 sudo apt-get -y install gimp
 
 # Xournal
-Sudo apt-get -y install xournal
+sudo apt-get -y install xournal
+
+# Caffeine: Make sure the computer doesn't fall asleep
+sudo apt-get -y install caffeine
 
 # Brave
 wget -O brave.deb https://laptop-updates.brave.com/latest/dev/ubuntu64
 sudo dpkg -i brave.deb
 sudo apt-get -f -y install
+
+# PDF Schuffler
+sudo apt-get -y install pdfshuffler
+
 
 # Dropbox
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1C61A2656FB57B7E4DE0F4C1FC918B335044912E  
