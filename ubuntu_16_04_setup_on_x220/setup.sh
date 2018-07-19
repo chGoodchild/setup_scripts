@@ -12,6 +12,9 @@ sudo apt-get -y install aspell-de
 sudo apt -y install texlive-lang-german
 sudo emacs /etc/locale.gen &
 
+# VLC
+sudo apt-get -y install vlc
+
 # Install thunderbird
 sudo apt-get -y install thunderbird
 sudo apt-get -y install enigmail
