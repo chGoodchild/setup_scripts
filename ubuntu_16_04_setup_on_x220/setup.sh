@@ -29,7 +29,7 @@ sudo apt-get -y install octave octave-doc octave-htmldoc
 sudo apt-get -y install git
 
 # Install svn
-sudo apt-get -y install svn
+sudo apt-get -y install subversion
 sudo mkdir svn
 
 # Install Arduino
@@ -83,8 +83,10 @@ sudo apt-get -y install pdfshuffler
 
 
 # Dropbox
-sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1C61A2656FB57B7E4DE0F4C1FC918B335044912E  
-sudo apt-get -y install dropbox 
+# sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1C61A2656FB57B7E4DE0F4C1FC918B335044912E  
+# sudo apt-get -y install dropbox
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+~/.dropbox-dist/dropboxd
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
