@@ -35,6 +35,9 @@ sudo mkdir svn
 # Install Arduino
 sudo apt-get -y install arduino
 
+# Resource indicator
+sudo apt-get install indicator-multiload
+
 # Install openVpn
 sudo apt-get -y install openvpn easy-rsa 
 
