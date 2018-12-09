@@ -5,6 +5,7 @@
 # http://stackoverflow.com/questions/218512/how-can-i-change-the-language-in-emacs-when-using-ispell
 sudo apt-get -y install emacs
 sudo apt-get -y install texlive auctex
+sudo apt-get -y install texlive-latex-extra
 
 # Add German language
 sudo apt-get -y install kde-l10n-de
