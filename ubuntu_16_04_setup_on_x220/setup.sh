@@ -94,3 +94,9 @@ cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
+
+# Node JS und ionic...
+curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+sudo apt-get update && sudo apt-get install yarn
+sudo npm install -g ionic
+
