@@ -95,7 +95,7 @@ cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 # Node JS und ionic...
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
 sudo apt-get -y update && sudo apt-get -y install yarn
-sudo npm install -y ionic    # sudo npm install -g -y ionic
+sudo npm install -g -y ionic
 sudo apt install -y docker.io
 
 # Uninstall packages that have become redundant.
