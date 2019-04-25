@@ -98,5 +98,8 @@ sudo apt-get -y update && sudo apt-get -y install yarn
 sudo npm install -g -y ionic
 sudo apt install -y docker.io
 
+sudo apt install -y tlp
+sudo apt install -y powertop
+
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
