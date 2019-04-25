@@ -100,6 +100,18 @@ sudo apt install -y docker.io
 
 sudo apt install -y tlp
 sudo apt install -y powertop
+sudo touch ~/.config/autostart/sudo.desktop
+echo "[Desktop Entry]" >> ~/.config/autostart/sudo.desktop
+echo "Type=Application" >> ~/.config/autostart/sudo.desktop
+echo "Exec=sudo tlp start" >> ~/.config/autostart/sudo.desktop
+echo "Hidden=false" >> ~/.config/autostart/sudo.desktop
+echo "NoDisplay=false" >> ~/.config/autostart/sudo.desktop
+echo "X-GNOME-Autostart-enabled=true" >> ~/.config/autostart/sudo.desktop
+echo "Name[en_US]=TLP" >> ~/.config/autostart/sudo.desktop
+echo "Name=TLP" >> ~/.config/autostart/sudo.desktop
+echo "Comment[en_US]=" >> ~/.config/autostart/sudo.desktop
+echo "Comment=" >> ~/.config/autostart/sudo.desktop
+
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
