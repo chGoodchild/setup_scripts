@@ -112,6 +112,16 @@ echo "Name=TLP" >> ~/.config/autostart/sudo.desktop
 echo "Comment[en_US]=" >> ~/.config/autostart/sudo.desktop
 echo "Comment=" >> ~/.config/autostart/sudo.desktop
 
+sudo su
+apt-get install thinkfan
+echo "options thinkpad_acpi fan_control=1" | sudo tee /etc/modprobe.d/thinkfan.conf
+modprobe -rv thinkpad_acpi
+modprobe -v thinkpad_acpi
+echo "START=yes" >> /etc/default/thinkfan
+systemctl enable thinkfan.service
+shutdown now -r
+echo "START=yes" >> /etc/default/thinkfan
+systemctl enable thinkfan.service
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
