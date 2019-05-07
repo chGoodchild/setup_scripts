@@ -13,5 +13,5 @@ make install
 sudo apt-get -y install gtkwave
 
 # Usage instructions:
-echo "Usage instructions:"
+printf "\n\n\nUsage instructions:\n"
 wget -qO- https://github.com/chGoodchild/setup_scripts/raw/master/using_ghdl.sh
