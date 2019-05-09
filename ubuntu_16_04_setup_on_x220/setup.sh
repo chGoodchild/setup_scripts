@@ -123,5 +123,13 @@ shutdown now -r
 echo "START=yes" >> /etc/default/thinkfan
 systemctl enable thinkfan.service
 
+# Setup screen colors
+sudo apt install -y xcalib
+# The following command is for inverting the screen colors. 
+# Use a custom keyboard shortcut to call this command (example CTRL + ALT + i)...
+xcalib -invert -alter
+xcalib -invert -alter
+
+
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
