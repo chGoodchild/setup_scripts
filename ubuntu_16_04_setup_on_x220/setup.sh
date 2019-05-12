@@ -130,6 +130,15 @@ sudo apt install -y xcalib
 xcalib -invert -alter
 xcalib -invert -alter
 
+sudo emacs /etc/modprobe.d/blacklist.conf
+# Comment out the following:
+# Causes trackpads to stop working on Lenovo 11e 2nd gen (Ubuntu: #1802135)
+# and Lenovo x240 to hang on boot (Ubuntu: #1802689)
+# blacklist i2c_i801
+
+
+
+
 
 # Uninstall packages that have become redundant.
 sudo apt-get -y autoremove
