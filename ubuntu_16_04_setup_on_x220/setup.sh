@@ -139,8 +139,8 @@ sudo emacs /etc/modprobe.d/blacklist.conf
 # Swapiness
 cat /proc/sys/vm/swappiness
 # For SSDs with a large swap to memory ratio
-sudo sysctl vm.swappiness=100
-echo "vm.swappiness = 100" >> /etc/sysctl.conf
+sudo sysctl vm.swappiness=60
+echo "vm.swappiness = 60" >> /etc/sysctl.conf
 
 # For HDDs with a large memory to swap ratio
 #sudo sysctl vm.swappiness=0
