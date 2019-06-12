@@ -142,6 +142,9 @@ cat /proc/sys/vm/swappiness
 sudo sysctl vm.swappiness=60
 echo "vm.swappiness = 60" >> /etc/sysctl.conf
 
+# Restart the mouse...
+sudo modprobe -r psmouse && sudo modprobe psmouse
+
 # For HDDs with a large memory to swap ratio
 #sudo sysctl vm.swappiness=0
 #echo "vm.swappiness = 0" >> /etc/sysctl.conf
