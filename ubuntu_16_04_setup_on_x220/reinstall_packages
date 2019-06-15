@@ -1,0 +1,1 @@
+for i in $(cat list.log); do apt-get install --reinstall -y "$i"; done
