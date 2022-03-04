@@ -77,7 +77,7 @@ class ModuleJS:
 
     # TODO: Am I extending the right JSON file?
     def extend_config_file_js(
-        self, workspace, config_variables, config_file_name="config-hil.json"
+        self, workspace, config_variables, config_file_name="config-sil.json"
     ):
         config_dir = workspace / Path("everest-core/config")
         assert config_dir.exists() == True
