@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from pathlib import Path
 import sys, shutil, json
+from module import *
 import copy as copy
 
 # print ('Number of arguments:', len(sys.argv), 'arguments.')
@@ -54,9 +55,11 @@ def set_cmake_lists_js(modules, module_path):
     assert module_cm.exists() == True
     return module_cm
 
+
 def path_to_name(path):
     assert path.exists() == True
     return path.name
+
 
 def get_config_file_name(module_path):
     module_name = path_to_name(module_path)
@@ -64,10 +67,11 @@ def get_config_file_name(module_path):
     if len(module_name) > 1:
         for char in module_name[1:]:
             if char.isupper():
-                config_name += ("-" + char.lower())
+                config_name += "-" + char.lower()
             else:
                 config_name += char
     return Path(config_name + ".json")
+
 
 def get_module_id(module_path):
     module_name = path_to_name(module_path)
@@ -75,10 +79,11 @@ def get_module_id(module_path):
     if len(module_name) > 1:
         for char in module_name[1:]:
             if char.isupper():
-                out_id += ("_" + char.lower())
+                out_id += "_" + char.lower()
             else:
                 out_id += char
     return out_id
+
 
 def create_config_file_js(workspace, file_path):
     config_dir = workspace / Path("everest-core/config")
@@ -91,13 +96,24 @@ def create_config_file_js(workspace, file_path):
     # ~/checkout/everest-workspace/everest-core/config/<config-file>.json
     raise Exception("not yet implemented")
 
+
 def get_path_content(json_path):
-    with open(json_path, 'r') as f:
-        return json.load(f)
+    print(json_path)
+    with open(json_path, "r") as f:
+        content = json.load(f)
+    f.close()
+    return content
+
+def write_path_content(json_path, content):
+    print(content)
+    with open(json_path, "w") as f:
+        json.dump(content, f)
+    f.close()
 
 
-
-def extend_config_file_js(workspace, module_data, file_path, config_file_name="config-hil.json"):
+def extend_config_file_js(
+    workspace, config_data, file_path, config_file_name="config-hil.json"
+):
     config_dir = workspace / Path("everest-core/config")
     assert config_dir.exists() == True
 
@@ -105,46 +121,35 @@ def extend_config_file_js(workspace, module_data, file_path, config_file_name="c
     assert config_path.exists() == True
 
     existing_content = get_path_content(config_path)
-
-    submodule_id = {}
-    submodule_id[config_key] = config_value
-
-    config_implementation = {}
-    config_implementation[new_submodule_id] = submodule_id
-
-    connection = {}
-    connection["module_id"] = other_module_id
-    connection["implementation_id"] = other_module_submodule_id
-
-    connections = {}
-    connections[connection_name] = [connection]
-
-    module_content = {}
-    module_content["module"] = new_module_name
-    module_content["config_implementation"] = config_implementation
-    module_content["connections"] = connections
-    existing_content[get_module_id(file_path)] = module_content
-
-    print(existing_content)
-
+    config = ModuleConfig(config_data)
+    existing_content[config_data["new_module_id"]] = config.get_content()
+    write_path_content(config_path, existing_content)
+    print("config_path: " + str(config_path))
+    # print(existing_content)
 
     # ~/checkout/everest-workspace/everest-core/config/<config-file>.json
     raise Exception("not yet implemented")
 
+
 def code_file_js():
     raise Exception("not yet implemented")
+
 
 def interface_file_js():
     raise Exception("not yet implemented")
 
+
 def manifest_file_js():
     raise Exception("not yet implemented")
+
 
 def dependency_file_js():
     raise Exception("not yet implemented")
 
+
 def cmake_lists_all_js():
     raise Exception("not yet implemented")
+
 
 def parse_args():
     mdata = {}
@@ -166,20 +171,22 @@ def parse_args():
         mdata["modules"], module_name(mdata["js"], sys.argv[3])
     )
 
-    module_data = {
-        "new_module_id" : get_module_id(mdata["mpath"]),
-        "new_module_name" : path_to_name(mdata["mpath"]),
-        "connection_name" : "yetipowermeter",
-        "other_module_id" : "yeti_driver",
-        "other_module_submodule_id" : "powermeter",
-        "new_submodule_id" : "main",
-        "config_key" : "sim_value",
-        "config_value" : 5000
+    config_data = {
+        "new_module_id": get_module_id(mdata["mpath"]),
+        "new_module_name": path_to_name(mdata["mpath"]),
+        "connection_name": "yetipowermeter",
+        "other_module_id": "yeti_driver",
+        "other_module_submodule_id": "powermeter",
+        "new_submodule_id": "main",
+        "config_key": "sim_value",
+        "config_value": 5000,
     }
 
     if mdata["js"]:
         mdata["CMakeLists.txt"] = set_cmake_lists_js(mdata["modules"], mdata["mpath"])
-        mdata["ConfigFile"] = extend_config_file_js(mdata["workspace"], module_data, mdata["mpath"])
+        mdata["ConfigFile"] = extend_config_file_js(
+            mdata["workspace"], config_data, mdata["mpath"]
+        )
         mdata["ModulesCodeFile"] = code_file_js()
         mdata["InterfaceFile"] = interface_file_js()
         mdata["ManifestFile"] = manifest_file_js()
@@ -204,7 +211,6 @@ def parse_args():
         assert field in data_keys
 
     return mdata
-
 
 
 write_module(parse_args())
