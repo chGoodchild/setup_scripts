@@ -17,15 +17,17 @@ edm --update
 
 # python3 write_module.py true ~/checkout/everest-workspace/ testModule
 
-cd JsTestModule
+
 
 # All modules CMakeList.txt:
 # ~/checkout/everest-workspace/everest-core/modules/CMakeLists.txt
 
-
+<<COMMENT
+cd JsTestModule
 cp ~/checkout/everest-workspace/everest-core/modules/JsPN532TokenProvider/CMakeLists.txt ~/checkout/everest-workspace/JsTestModule/CMakeLists.txt
 cp ~/checkout/everest-workspace/everest-core/modules/JsPN532TokenProvider/manifest.json ~/checkout/everest-workspace/JsTestModule/manifest.json
 echo "{}" > ~/checkout/everest-workspace/JsTestModule/package.json # Assuming: no dependencies on external packages
+COMMENT
 python3 setup_module.py true ~/checkout/everest-workspace/ testModule
 
 # --------------------------------------------------------------------

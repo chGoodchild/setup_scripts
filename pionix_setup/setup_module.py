@@ -16,4 +16,3 @@ write_module(parse_args())
 """
 
 module = ModuleJS(args=sys.argv)
-
