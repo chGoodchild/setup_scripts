@@ -26,7 +26,7 @@ cd JsTestModule
 cp ~/checkout/everest-workspace/everest-core/modules/JsPN532TokenProvider/CMakeLists.txt ~/checkout/everest-workspace/JsTestModule/CMakeLists.txt
 cp ~/checkout/everest-workspace/everest-core/modules/JsPN532TokenProvider/manifest.json ~/checkout/everest-workspace/JsTestModule/manifest.json
 echo "{}" > ~/checkout/everest-workspace/JsTestModule/package.json # Assuming: no dependencies on external packages
-
+python3 setup_module.py true ~/checkout/everest-workspace/ testModule
 
 # --------------------------------------------------------------------
 # 4.2. Writing a C++ module: Creating some more essential files
