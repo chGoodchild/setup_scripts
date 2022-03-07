@@ -81,15 +81,3 @@ def copy_module_property(modules, module_path, property):
     shutil.copy(str(source_path), str(destination_path))
     assert destination_path.exists() == True
     return destination_path
-
-
-def manifest_file_js():
-    raise Exception("not yet implemented")
-
-
-def dependency_file_js():
-    raise Exception("not yet implemented")
-
-
-def cmake_lists_all_js():
-    raise Exception("not yet implemented")
