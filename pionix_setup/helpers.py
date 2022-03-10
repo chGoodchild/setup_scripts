@@ -71,13 +71,4 @@ def get_source_path(modules, property):
     return property_path
 
 
-def copy_module_property(modules, module_path, property):
-    source_path = get_source_path(modules, property)
-    assert module_path.exists() == True
-    destination_path = module_path / property
 
-    # OK to copy from JsPN532TokenProvider, because CMakeLists.txt is
-    # dynamic and it will infer the module's name from the directory that it resides in.
-    shutil.copy(str(source_path), str(destination_path))
-    assert destination_path.exists() == True
-    return destination_path

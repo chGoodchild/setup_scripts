@@ -1,0 +1,1 @@
+{"js_example_writer": {"module": "JsExampleWriter", "connections": {}, "config_implementation": {"example_writer_submodule" : {"example_writer_tx_interval_ms": 200}}}, "js_example_reader": {"module": "JsExampleReader", "connections": {"yetipowermeter": {"module_id": "yeti_driver", "implementation_id": "powermeter"}}, "config_implementation": {"main": {"sim_value": 5000}}}}

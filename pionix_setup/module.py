@@ -8,7 +8,8 @@ import copy as copy
 
 
 class ModuleJS:
-    def __init__(self, args):
+
+    def parse_args(self, args):
         self.mdata = {}
         if args[1][0].lower() == "t":
             self.mdata["js"] = True
@@ -30,31 +31,17 @@ class ModuleJS:
             self.mdata["modules"], module_name(self.mdata["js"], args[3])
         )
 
-        if self.mdata["js"]:
-            self.mdata["CMakeLists.txt"] = self.set_cmake_lists_js(
-                self.mdata["modules"], self.mdata["mpath"]
-            )
-            self.mdata["ConfigFile"] = self.extend_user_config_file_js(
-                self.mdata["workspace"],
-            )
-            self.mdata["InterfaceFile"] = self.create_interface_file_js(
-                self.mdata["workspace"],
-            )
-            self.mdata["ManifestFile"] = self.create_manifest_file_js(
-                self.mdata["workspace"], self.mdata["InterfaceFile"]
-            )
-            self.mdata["JSPackageDepFile"] = self.create_package_dep_js(
-                self.mdata["workspace"]
-            )
-            self.mdata["CMakeLists.txtAll"] = self.modify_cmake_lists(
-                self.mdata["workspace"], self.mdata["mpath"]
-            )
-            self.mdata["ModulesCodeFile"] = self.code_file_js(
-                self.mdata["modules"], self.mdata["mpath"]
-            )
+        if len(args) > 4:
+            self.mdata["command"] = args[4]
         else:
-            raise Exception("not impelemented yet")
+            self.mdata["command"] = None
 
+        if len(args) > 5:
+            self.mdata["arg1"] = args[5]
+        else:
+            self.mdata["arg1"] = None
+
+    def check_data_completeness(self):
         derrived_fields = [
             "CMakeLists.txt",
             "ConfigFile",
@@ -62,36 +49,88 @@ class ModuleJS:
             "InterfaceFile",
             "ManifestFile",
             "JSPackageDepFile",
-            "CMakeLists.txtAll",
+            "CMakeLists.txt_global",
         ]
 
         # Confirm that all derived fields have been set deliberately.
         data_keys = set(self.mdata.keys())
         for field in derrived_fields:
-            assert field in data_keys
+            try:
+                assert field in data_keys
+            except:
+                raise Exception("Failed to find the field; ", field)
 
-    def set_cmake_lists_js(self, modules, module_path):
-        return copy_module_property(
-            modules, module_path, property=Path("CMakeLists.txt")
-        )
+    def generate_new(self):
+        if self.mdata["js"]:
+            self.extend_user_config_file_js(self.mdata["workspace"])
+            self.create_interface_file_js(
+                self.mdata["workspace"],
+            )
+            self.create_manifest_file_js()
+            self.create_package_dep_js()
+            self.create_cmake_lists_js()
+            self.global_cmake_lists()
+            self.code_file_js()
+        else:
+            raise Exception("not impelemented yet")
 
-    def create_package_dep_js(self, workspace):
+        self.check_data_completeness()
+
+    def modify(self):
+        raise Exception("Not implemented yet")
+
+    def get_path(self):
+        if self.mdata["arg1"] in set(self.mdata.keys()):
+            return self.mdata[self.mdata["arg1"]]
+        else:
+            raise Exception("Unknown input")
+
+    def construct_paths(self):
+        self.set_config_path(self.mdata["workspace"])
+        self.set_interface_path(self.mdata["workspace"])
+        self.set_index_path()
+        self.set_manifest_path()
+        self.set_js_package_path()
+        self.set_cmake_lists_js()
+        self.global_cmake_lists()
+
+    def __init__(self, args):
+        self.parse_args(args)
+        if self.mdata["command"] == "new":
+            self.generate_new()
+        else:
+            self.construct_paths()
+        self.check_data_completeness()
+
+    def react(self):
+        if self.mdata["command"] == "modify":
+            self.modify()
+
+        if self.mdata["command"] == "get_path":
+            return self.get_path()
+
+    def set_js_package_path(self):
+        assert self.mdata["mpath"].exists() == True
+        self.mdata["JSPackageDepFile"] = self.mdata["mpath"] / Path("package.json")
+
+    def create_package_dep_js(self):
+        self.set_js_package_path()
         dep_vars = ModulePkgDep(dependency_vars={})
         dep_vars.get_dependency_contnent()
-        module_dir = workspace / Path("everest-core/modules")
-        assert module_dir.exists() == True
-        dep_vars_path = module_dir / Path("package.json")
-        write_path_content(dep_vars_path, dep_vars.get_dependency_contnent())
-        return dep_vars_path
+        write_path_content(self.mdata["JSPackageDepFile"], dep_vars.get_dependency_contnent())
 
-    def create_manifest_file_js(self, workspace, interface_file):
+    def set_manifest_path(self):
+        assert self.mdata["mpath"].exists() == True
+        self.mdata["ManifestFile"] = self.mdata["mpath"] / Path("manifest.json")
+
+    def create_manifest_file_js(self):
         manifest = ModuleManifest(
             manifest_vars={
                 "description": "manifest for test module",
                 "new_submodule_id": "main",
                 "description_of_submodule": "test submodule for manifest",
                 "interface_name": str(
-                    interface_file.name
+                    self.mdata["InterfaceFile"].name
                 ),  # Must be equal to interface file's name!
                 "config_key": "sim_value",
                 "intention_of_value": "test value for a test file",
@@ -105,14 +144,18 @@ class ModuleJS:
         )
 
         manifest.get_manifest_content()
-        module_dir = workspace / Path("everest-core/modules")
-        assert module_dir.exists() == True
-        manifest_path = module_dir / Path("manifest.json")
-        write_path_content(manifest_path, manifest.get_manifest_content())
-        return manifest_path
+        self.set_manifest_path()
+        write_path_content(self.mdata["ManifestFile"], manifest.get_manifest_content())
+        assert self.mdata["ManifestFile"].exists() == True
+
+
+    def set_interface_path(self, workspace):
+        interface_name = get_module_id(self.mdata["mpath"]) + ".json"
+        interface_dir = workspace / Path("everest-core/interfaces")
+        assert interface_dir.exists() == True
+        self.mdata["InterfaceFile"] = interface_dir / Path(interface_name)
 
     def create_interface_file_js(self, workspace):
-        interface_name = get_module_id(self.mdata["mpath"]) + ".json"
 
         interface = ModuleInterface(
             interface_vars={
@@ -130,26 +173,35 @@ class ModuleJS:
                 "value_type": "boolean",
             }
         )
-        interface_dir = workspace / Path("everest-core/interfaces")
-        assert interface_dir.exists() == True
-        interface_path = interface_dir / Path(interface_name)
-        write_path_content(interface_path, interface.get_interface_content())
-        return interface_path
 
-    # TODO: Am I extending the right JSON file?
-    def extend_user_config_file_js(self, workspace, config_file_name="config-sil.json"):
+        self.set_interface_path(workspace)
+        write_path_content(self.mdata["InterfaceFile"], interface.get_interface_content())
+
+    def set_config_path(self, workspace, config_file_name="config-sil.json"):
         user_config_dir = workspace / Path("everest-core/config/user-config")
         assert user_config_dir.exists() == True
         config_dir = workspace / Path("everest-core/config/")
         assert config_dir.exists() == True
 
-        config_path = config_dir / Path(config_file_name)
-        assert config_path.exists() == True
+        config_source = config_dir / Path(config_file_name)
+        assert config_source.exists() == True
 
-        user_config_path = user_config_dir / Path(config_file_name)
-        shutil.copy(str(config_path), str(user_config_path))
+        self.mdata["ConfigFile"] = user_config_dir / Path(config_file_name)
+        return config_source
 
-        existing_content = get_path_content(user_config_path)
+
+    # TODO: Am I extending the right JSON file?
+    def extend_user_config_file_js(self, workspace, use_empty=True):
+        config_source = self.set_config_path(workspace)
+
+        existing_content = {}
+        if not self.mdata["ConfigFile"].exists() and not use_empty:
+            shutil.copy(str(config_source), str(self.mdata["ConfigFile"]))
+            existing_content = get_path_content(self.mdata["ConfigFile"])
+        elif not self.mdata["ConfigFile"].exists() and use_empty:
+            existing_content = {}
+        else:
+            existing_content = get_path_content(self.mdata["ConfigFile"])
 
         config = ModuleConfig(
             config_vars={
@@ -163,8 +215,8 @@ class ModuleJS:
             }
         )
         existing_content[get_module_id(self.mdata["mpath"])] = config.get_content()
-        write_path_content(user_config_path, existing_content)
-        return user_config_path
+        write_path_content(self.mdata["ConfigFile"], existing_content)
+        return self.mdata["ConfigFile"]
 
     def get_index(self, list, element):
         for index, el in enumerate(list):
@@ -172,11 +224,20 @@ class ModuleJS:
                 return index
         return None
 
-    def modify_cmake_lists(self, workspace, module_path):
-        cmake_path = workspace / Path("everest-core/modules/CMakeLists.txt")
+    def set_cmake_lists_js(self):
+        self.mdata["CMakeLists.txt"] = self.mdata["mpath"] / Path("CMakeLists.txt")
+
+    def create_cmake_lists_js(self):
+        self.set_cmake_lists_js()
+        # OK to copy from JsPN532TokenProvider, because CMakeLists.txt is
+        # dynamic and it will infer the module's name from the directory that it resides in.
+        shutil.copy(str(self.mdata["modules"] / Path("JsPN532TokenProvider/CMakeLists.txt")), str(self.mdata["CMakeLists.txt"]))
+
+    def global_cmake_lists(self):
+        cmake_path = self.mdata["modules"] / Path("CMakeLists.txt")
         assert cmake_path.exists() == True
 
-        new_string = "    " + str(module_path.name)
+        new_string = "    " + str(self.mdata["mpath"].name)
 
         outlist = []
         with open(cmake_path, "r") as reader:
@@ -195,19 +256,17 @@ class ModuleJS:
 
         with open(cmake_path, "w") as text_file:
             text_file.write(joined_string)
+        self.mdata["CMakeLists.txt_global"] = cmake_path
 
-        return cmake_path
+    def set_index_path(self):
+        property = Path("index.js")
+        source_path = get_source_path(self.mdata["modules"], property)
+        assert self.mdata["mpath"].exists() == True
+        self.mdata["ModulesCodeFile"] = self.mdata["mpath"] / property
+        return source_path
 
-    def code_file_js(self, modules, module_path):
-        new_path = copy_module_property(modules, module_path, property=Path("index.js"))
-        done = False
-        while not done:
-            print(
-                "Are you done adapting the logic of your new module in "
-                + str(new_path)
-                + "? [Y / N]"
-            )
-            response = input()
-            if response[0].lower() == "y":
-                done = True
-        return new_path
+    def code_file_js(self):
+        source_path = self.set_index_path()
+        shutil.copy(str(source_path), str(self.mdata["ModulesCodeFile"]))
+        assert self.mdata["ModulesCodeFile"].exists() == True
+

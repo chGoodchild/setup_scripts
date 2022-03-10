@@ -16,3 +16,5 @@ write_module(parse_args())
 """
 
 module = ModuleJS(args=sys.argv)
+# sys.exit(module.react())
+print(module.react())
