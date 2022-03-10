@@ -40,11 +40,8 @@ cp reader/index.js $code_file
 manifest_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleWriter get_path ManifestFile)
 cp reader/manifest.json $manifest_file
 
-<<COMMENT
-
+# Build
 cd ~/checkout/everest-workspace/everest-core/build
 cmake .. && make -j$(nproc) install
 # ./~/checkout/everest-workspace/everest-core/run_sil.sh
 ./../run_sil.sh
-
-COMMENT
