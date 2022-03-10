@@ -37,7 +37,7 @@ cp reader/js_example_reader.json $interface_file
 code_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleReader get_path ModulesCodeFile)
 cp reader/index.js $code_file
 
-manifest_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleWriter get_path ManifestFile)
+manifest_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleReader get_path ManifestFile)
 cp reader/manifest.json $manifest_file
 
 # Build
