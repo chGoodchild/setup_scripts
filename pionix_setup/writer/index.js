@@ -31,11 +31,11 @@ boot_module(async ({ setup, config }) => {
             local_tx_prescaler = args.tx_prescaler;
 
             evlog.info(`JsExampleWriter: Set writer interval prescaler to '${local_tx_prescaler}' resulting in an interval of '${local_tx_prescaler * config.impl.example_writer_submodule.example_writer_tx_interval_ms}'ms...`);
-            return "Success";
+            // return "Success"; // We don't have a return type in manifest.json, TODO: catch this in run_sil.sh?
         }
         else {
             evlog.error(`JsExampleWriter: New prescaler out of range: '${args.tx_prescaler}'!!!`);
-            return "Error_OutOfRange";
+            // return "Error_OutOfRange"; // We don't have a return type in manifest.json
         }
     });
 }).then((mod) => {

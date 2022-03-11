@@ -7,6 +7,8 @@ sudo apt update
 sudo apt install -y libssl1.1=1.1.1f-1ubuntu2
 sudo apt install -y npm
 sudo apt install -y git rsync wget cmake doxygen graphviz build-essential clang-tidy cppcheck maven openjdk-11-jdk docker docker-compose libboost-all-dev nodejs libssl-dev libsqlite3-dev clang-format
+sudo apt install -y ninja-build
+snap install mqtt-explorer
 
 sudo apt install -y jstyleson jsonschema
 sudo apt install -y python3-pip

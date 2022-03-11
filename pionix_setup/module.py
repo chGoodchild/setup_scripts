@@ -45,6 +45,7 @@ class ModuleJS:
         derrived_fields = [
             "CMakeLists.txt",
             "ConfigFile",
+            "UserConfigFile",
             "ModulesCodeFile",
             "InterfaceFile",
             "ManifestFile",
@@ -62,7 +63,7 @@ class ModuleJS:
 
     def generate_new(self):
         if self.mdata["js"]:
-            self.extend_user_config_file_js(self.mdata["workspace"])
+            self.extend_user_config_file_js()
             self.create_interface_file_js(
                 self.mdata["workspace"],
             )
@@ -86,7 +87,7 @@ class ModuleJS:
             raise Exception("Unknown input")
 
     def construct_paths(self):
-        self.set_config_path(self.mdata["workspace"])
+        self.set_config_path()
         self.set_interface_path(self.mdata["workspace"])
         self.set_index_path()
         self.set_manifest_path()
@@ -177,31 +178,33 @@ class ModuleJS:
         self.set_interface_path(workspace)
         write_path_content(self.mdata["InterfaceFile"], interface.get_interface_content())
 
-    def set_config_path(self, workspace, config_file_name="config-sil.json"):
-        user_config_dir = workspace / Path("everest-core/config/user-config")
+    def set_config_path(self, config_file_name="config-sil.json"):
+        user_config_dir = self.mdata["workspace"] / Path("everest-core/config/user-config")
+
         assert user_config_dir.exists() == True
-        config_dir = workspace / Path("everest-core/config/")
+        config_dir = self.mdata["workspace"] / Path("everest-core/config/")
         assert config_dir.exists() == True
 
         config_source = config_dir / Path(config_file_name)
         assert config_source.exists() == True
 
-        self.mdata["ConfigFile"] = user_config_dir / Path(config_file_name)
-        return config_source
+        self.mdata["UserConfigFile"] = user_config_dir / Path(config_file_name)
+        self.mdata["ConfigFile"] = config_source
+
 
 
     # TODO: Am I extending the right JSON file?
-    def extend_user_config_file_js(self, workspace, use_empty=True):
-        config_source = self.set_config_path(workspace)
+    def extend_user_config_file_js(self, use_empty=True):
+        self.set_config_path()
 
         existing_content = {}
-        if not self.mdata["ConfigFile"].exists() and not use_empty:
-            shutil.copy(str(config_source), str(self.mdata["ConfigFile"]))
-            existing_content = get_path_content(self.mdata["ConfigFile"])
-        elif not self.mdata["ConfigFile"].exists() and use_empty:
+        if not self.mdata["UserConfigFile"].exists() and not use_empty:
+            shutil.copy(str(self.mdata["ConfigFile"]), str(self.mdata["UserConfigFile"]))
+            existing_content = get_path_content(self.mdata["UserConfigFile"])
+        elif not self.mdata["UserConfigFile"].exists() and use_empty:
             existing_content = {}
         else:
-            existing_content = get_path_content(self.mdata["ConfigFile"])
+            existing_content = get_path_content(self.mdata["UserConfigFile"])
 
         config = ModuleConfig(
             config_vars={
@@ -215,8 +218,8 @@ class ModuleJS:
             }
         )
         existing_content[get_module_id(self.mdata["mpath"])] = config.get_content()
-        write_path_content(self.mdata["ConfigFile"], existing_content)
-        return self.mdata["ConfigFile"]
+        write_path_content(self.mdata["UserConfigFile"], existing_content)
+        return self.mdata["UserConfigFile"]
 
     def get_index(self, list, element):
         for index, el in enumerate(list):
