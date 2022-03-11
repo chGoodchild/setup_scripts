@@ -1,0 +1,1 @@
+{"example_writer": {"module": "JsExampleWriter", "connections": {}, "config_implementation": {"example_writer_submodule" : {"example_writer_tx_interval_ms": 200}}}, "example_reader": {"module": "JsExampleReader", "connections": {"example_writer_connection": [{"module_id": "example_writer", "implementation_id": "example_writer_submodule"}]}}}

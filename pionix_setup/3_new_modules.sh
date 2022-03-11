@@ -42,6 +42,18 @@ cp reader/manifest.json $manifest_file
 
 # Build
 cd ~/checkout/everest-workspace/everest-core/build
-cmake .. && make -j$(nproc) install
+cmake ..
+mkdir ~/checkout/everest-workspace/everest-core/build/modules/JsExampleWriter/node_modules
+mkdir ~/checkout/everest-workspace/everest-core/build/modules/JsExampleReader/node_modules
+make -j$(nproc) install
 # ./~/checkout/everest-workspace/everest-core/run_sil.sh
+
+cd $cwd
+cp config-sil.json_no_array $conf_file
+cd ~/checkout/everest-workspace/everest-core/build
+
 ./../run_sil.sh
+
+# ll /home/pachai/checkout/everest-workspace/everest-core/build/dist/interfaces/js_example_reader.json
+# rather than
+# ll /home/pachai/checkout/everest-workspace/everest-core/build/dist/interfaces/example_reader_interface.json
