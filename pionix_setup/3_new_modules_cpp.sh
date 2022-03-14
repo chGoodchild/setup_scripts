@@ -41,7 +41,7 @@ cp cpp/writer/example_writer.json $interface_file
 # Create writer
 core=$(python3 setup_module.py false ~/checkout/everest-workspace/ ExampleWriter get_path core)
 manifest_file=$(python3 setup_module.py false ~/checkout/everest-workspace/ ExampleWriter get_path ManifestFile)
-cp cpp/reader/manifest.json $manifest_file
+cp cpp/writer/manifest.json $manifest_file
 
 cd $core
 ev-cli mod create ExampleWriter
@@ -60,6 +60,7 @@ cd $cwd
 # -------------------------
 
 cp cpp/reader/ExampleReader.* ~/checkout/everest-workspace/everest-core/modules/ExampleReader/.
+cp cpp/reader/example_reader_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleReader/.
 
 cp cpp/writer/ExampleWriter.* ~/checkout/everest-workspace/everest-core/modules/ExampleWriter/.
 cp cpp/writer/example_writer_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleWriter/.
