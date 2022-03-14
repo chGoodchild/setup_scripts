@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright 2022 - 2022 Pionix GmbH and Contributors to EVerest
-#include "ExampleWriter.hpp"
+#include "ExampleReader.hpp"
 
 namespace module {
 
-void ExampleWriter::init() {
+void ExampleReader::init() {
     invoke_init(*p_example_reader_submodule);
 }
 
-void ExampleWriter::ready() {
+void ExampleReader::ready() {
     invoke_ready(*p_example_reader_submodule);
 }
 
