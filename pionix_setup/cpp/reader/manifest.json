@@ -1,0 +1,21 @@
+{
+  "description":"Communication example module - reader",
+  "provides":{
+    "example_reader_submodule":{
+      "description":"Implementation of this module's interface - currently unused",
+      "interface":"example_reader"
+    }
+  },
+  "requires":{
+    "example_writer_connection":{
+      "interface":"example_writer"
+    }
+  },
+  "metadata":{
+    "license":"https://opensource.org/licenses/Apache-2.0",
+    "authors":[
+      "Max Mustermann"
+    ]
+  },
+  "enable_external_mqtt":false
+}

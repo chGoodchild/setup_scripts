@@ -1,0 +1,5 @@
+{
+    "description":"No published variables - only reads data from the ExampleWriter module",
+    "vars":{
+    }
+}

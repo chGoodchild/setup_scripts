@@ -62,8 +62,7 @@ def write_path_content(json_path, content):
         json.dump(content, f)
     f.close()
 
-
-def get_source_path(modules, property):
+def get_source_path_js(modules, property):
     JsPN532TokenProvider = modules / Path("JsPN532TokenProvider")
     assert JsPN532TokenProvider.exists() == True
     property_path = JsPN532TokenProvider / property
@@ -71,4 +70,11 @@ def get_source_path(modules, property):
     return property_path
 
 
+def get_source_path_cpp(modules, property):
 
+    raise Exception("Stop here")
+    JsPN532TokenProvider = modules / Path("JsPN532TokenProvider")
+    assert JsPN532TokenProvider.exists() == True
+    property_path = JsPN532TokenProvider / property
+    assert property_path.exists() == True
+    return property_path

@@ -1,0 +1,29 @@
+{
+  "description":"Provide some variables to be shared to the ExampleReader module",
+  "vars":{
+    "writer_published_var":{
+      "description":"Example writer integer message",
+      "type":"integer",
+      "minimum":1,
+      "maximum":180
+    },
+
+    "writer_published_string":{
+      "description":"Example writer string message",
+      "type":"string"
+    }
+  },
+  "cmds":{
+    "set_tx_prescaler":{
+      "description":"Sets the prescaler for message transmission",
+      "arguments":{
+        "tx_prescaler":{
+          "description":"Prescaler: each unit represents 500ms",
+          "type":"integer",
+          "minimum":4,
+          "maximum":20
+        }
+      }
+    }
+  }
+}

@@ -5,10 +5,10 @@ from module_manifest import *
 from module_config import *
 from helpers import *
 import copy as copy
+import subprocess
 
 
 class ModuleJS:
-
     def parse_args(self, args):
         self.mdata = {}
         if args[1][0].lower() == "t":
@@ -22,9 +22,10 @@ class ModuleJS:
         if not self.mdata["workspace"].exists():
             raise Exception("Invalid path: " + str(self.mdata["workspace"]))
 
-        self.mdata["modules"] = Path(self.mdata["workspace"]) / Path(
-            "everest-core/modules"
-        )
+        self.mdata["core"] = Path(self.mdata["workspace"]) / Path("everest-core")
+
+        self.mdata["modules"] = self.mdata["core"] / Path("modules")
+
         assert self.mdata["modules"].exists() == True
 
         self.mdata["mpath"] = module_path(
@@ -64,16 +65,24 @@ class ModuleJS:
     def generate_new(self):
         if self.mdata["js"]:
             self.extend_user_config_file_js()
-            self.create_interface_file_js(
-                self.mdata["workspace"],
-            )
-            self.create_manifest_file_js()
+            self.create_interface_file_lang_agnostic()
+            self.create_manifest_file_lang_agnostic()
             self.create_package_dep_js()
             self.create_cmake_lists_js()
             self.global_cmake_lists()
             self.code_file_js()
         else:
-            raise Exception("not impelemented yet")
+            self.create_interface_file_lang_agnostic()
+            self.create_manifest_file_lang_agnostic()
+
+            # The above manifest and interface files are not what ev-cli needs, so I will copy them in using the bash script instead.
+            # subprocess.call(["ev-cli", "mod", "create", str(self.mdata["mpath"].name)], cwd=self.mdata["core"])
+
+            self.set_config_path()
+            self.set_index_path()
+            self.set_js_package_path()
+            self.set_cmake_lists_js()
+            self.global_cmake_lists()
 
         self.check_data_completeness()
 
@@ -118,13 +127,15 @@ class ModuleJS:
         self.set_js_package_path()
         dep_vars = ModulePkgDep(dependency_vars={})
         dep_vars.get_dependency_contnent()
-        write_path_content(self.mdata["JSPackageDepFile"], dep_vars.get_dependency_contnent())
+        write_path_content(
+            self.mdata["JSPackageDepFile"], dep_vars.get_dependency_contnent()
+        )
 
     def set_manifest_path(self):
         assert self.mdata["mpath"].exists() == True
         self.mdata["ManifestFile"] = self.mdata["mpath"] / Path("manifest.json")
 
-    def create_manifest_file_js(self):
+    def create_manifest_file_lang_agnostic(self):
         manifest = ModuleManifest(
             manifest_vars={
                 "description": "manifest for test module",
@@ -144,11 +155,9 @@ class ModuleJS:
             }
         )
 
-        manifest.get_manifest_content()
         self.set_manifest_path()
         write_path_content(self.mdata["ManifestFile"], manifest.get_manifest_content())
         assert self.mdata["ManifestFile"].exists() == True
-
 
     def set_interface_path(self, workspace):
         interface_name = get_module_id(self.mdata["mpath"]) + ".json"
@@ -156,8 +165,7 @@ class ModuleJS:
         assert interface_dir.exists() == True
         self.mdata["InterfaceFile"] = interface_dir / Path(interface_name)
 
-    def create_interface_file_js(self, workspace):
-
+    def create_interface_file_lang_agnostic(self):
         interface = ModuleInterface(
             interface_vars={
                 "description": "this is an interface for a test module",
@@ -175,11 +183,15 @@ class ModuleJS:
             }
         )
 
-        self.set_interface_path(workspace)
-        write_path_content(self.mdata["InterfaceFile"], interface.get_interface_content())
+        self.set_interface_path(self.mdata["workspace"])
+        write_path_content(
+            self.mdata["InterfaceFile"], interface.get_interface_content()
+        )
 
     def set_config_path(self, config_file_name="config-sil.json"):
-        user_config_dir = self.mdata["workspace"] / Path("everest-core/config/user-config")
+        user_config_dir = self.mdata["workspace"] / Path(
+            "everest-core/config/user-config"
+        )
 
         assert user_config_dir.exists() == True
         config_dir = self.mdata["workspace"] / Path("everest-core/config/")
@@ -191,15 +203,15 @@ class ModuleJS:
         self.mdata["UserConfigFile"] = user_config_dir / Path(config_file_name)
         self.mdata["ConfigFile"] = config_source
 
-
-
     # TODO: Am I extending the right JSON file?
     def extend_user_config_file_js(self, use_empty=True):
         self.set_config_path()
 
         existing_content = {}
         if not self.mdata["UserConfigFile"].exists() and not use_empty:
-            shutil.copy(str(self.mdata["ConfigFile"]), str(self.mdata["UserConfigFile"]))
+            shutil.copy(
+                str(self.mdata["ConfigFile"]), str(self.mdata["UserConfigFile"])
+            )
             existing_content = get_path_content(self.mdata["UserConfigFile"])
         elif not self.mdata["UserConfigFile"].exists() and use_empty:
             existing_content = {}
@@ -234,7 +246,10 @@ class ModuleJS:
         self.set_cmake_lists_js()
         # OK to copy from JsPN532TokenProvider, because CMakeLists.txt is
         # dynamic and it will infer the module's name from the directory that it resides in.
-        shutil.copy(str(self.mdata["modules"] / Path("JsPN532TokenProvider/CMakeLists.txt")), str(self.mdata["CMakeLists.txt"]))
+        shutil.copy(
+            str(self.mdata["modules"] / Path("JsPN532TokenProvider/CMakeLists.txt")),
+            str(self.mdata["CMakeLists.txt"]),
+        )
 
     def global_cmake_lists(self):
         cmake_path = self.mdata["modules"] / Path("CMakeLists.txt")
@@ -262,8 +277,13 @@ class ModuleJS:
         self.mdata["CMakeLists.txt_global"] = cmake_path
 
     def set_index_path(self):
-        property = Path("index.js")
-        source_path = get_source_path(self.mdata["modules"], property)
+        if self.mdata["js"] == True:
+            property = Path("index.js")
+            source_path = get_source_path_js(self.mdata["modules"], property)
+        else:
+            property = Path(str(self.mdata["mpath"].name))
+            source_path = None
+
         assert self.mdata["mpath"].exists() == True
         self.mdata["ModulesCodeFile"] = self.mdata["mpath"] / property
         return source_path
@@ -272,4 +292,3 @@ class ModuleJS:
         source_path = self.set_index_path()
         shutil.copy(str(source_path), str(self.mdata["ModulesCodeFile"]))
         assert self.mdata["ModulesCodeFile"].exists() == True
-

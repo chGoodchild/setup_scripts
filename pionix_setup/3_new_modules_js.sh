@@ -34,23 +34,23 @@ cp config-sil.json $user_conf_file
 
 # Writer
 interface_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleWriter get_path InterfaceFile)
-cp writer/js_example_writer.json $interface_file
+cp js/writer/js_example_writer.json $interface_file
 
 code_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleWriter get_path ModulesCodeFile)
-cp writer/index.js $code_file
+cp js/writer/index.js $code_file
 
 manifest_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleWriter get_path ManifestFile)
-cp writer/manifest.json $manifest_file
+cp js/writer/manifest.json $manifest_file
 
 # Reader
 interface_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleReader get_path InterfaceFile)
-cp reader/js_example_reader.json $interface_file
+cp js/reader/js_example_reader.json $interface_file
 
 code_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleReader get_path ModulesCodeFile)
-cp reader/index.js $code_file
+cp js/reader/index.js $code_file
 
 manifest_file=$(python3 setup_module.py true ~/checkout/everest-workspace/ ExampleReader get_path ManifestFile)
-cp reader/manifest.json $manifest_file
+cp js/reader/manifest.json $manifest_file
 
 # Build
 cd ~/checkout/everest-workspace/everest-core/build
