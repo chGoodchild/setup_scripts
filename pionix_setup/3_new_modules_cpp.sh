@@ -6,6 +6,10 @@ cwd=$(pwd)
 cd ~/checkout/everest-workspace/everest-utils/ev-dev-tools
 pip3 install .
 
+# Run this if the MQTT broker isn't running yet:
+# cd ~/checkout/everest-workspace/everest-utils/docker
+# sudo docker-compose up -d
+
 cd ~/checkout/everest-workspace/
 
 # Checkout init script in everest utils... Does the things that this script needs to do...
