@@ -6,11 +6,6 @@
       "type":"integer",
       "minimum":1,
       "maximum":180
-    },
-
-    "writer_published_string":{
-      "description":"Example writer string message",
-      "type":"string"
     }
   },
   "cmds":{

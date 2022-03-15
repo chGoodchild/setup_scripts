@@ -5,11 +5,11 @@
 namespace module {
 
 void ExampleWriter::init() {
-    invoke_init(*p_example_reader_submodule);
+    invoke_init(*p_example_writer_submodule);
 }
 
 void ExampleWriter::ready() {
-    invoke_ready(*p_example_reader_submodule);
+    invoke_ready(*p_example_writer_submodule);
 }
 
 } // namespace module

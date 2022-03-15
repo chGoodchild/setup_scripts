@@ -11,7 +11,7 @@
 #include "ld-ev.hpp"
 
 // headers for provided interface implementations
-#include <generated/example_reader/Implementation.hpp>
+#include <generated/example_writer/Implementation.hpp>
 
 // headers for required interface implementations
 #include <generated/example_writer/Interface.hpp>
@@ -27,16 +27,14 @@ struct Conf {};
 class ExampleWriter : public Everest::ModuleBase {
 public:
     ExampleWriter() = delete;
-    ExampleWriter(const ModuleInfo& info, std::unique_ptr<example_readerImplBase> p_example_reader_submodule,
-                  std::unique_ptr<example_writerIntf> r_example_writer_connection, Conf& config) :
+    ExampleWriter(const ModuleInfo& info, std::unique_ptr<example_writerImplBase> p_example_writer_submodule,
+                  Conf& config) :
         ModuleBase(info),
-        p_example_reader_submodule(std::move(p_example_reader_submodule)),
-        r_example_writer_connection(std::move(r_example_writer_connection)),
+        p_example_writer_submodule(std::move(p_example_writer_submodule)),
         config(config){};
 
     const Conf& config;
-    const std::unique_ptr<example_readerImplBase> p_example_reader_submodule;
-    const std::unique_ptr<example_writerIntf> r_example_writer_connection;
+    const std::unique_ptr<example_writerImplBase> p_example_writer_submodule;
 
     // ev@1fce4c5e-0ab8-41bb-90f7-14277703d2ac:v1
     // insert your public definitions here
