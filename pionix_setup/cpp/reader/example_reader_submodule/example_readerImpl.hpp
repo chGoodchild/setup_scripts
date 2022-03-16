@@ -1,67 +1,61 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright Pionix GmbH and Contributors to EVerest
-#ifndef EXAMPLE_READER_HPP
-#define EXAMPLE_READER_HPP
+#ifndef EXAMPLE_READER_SUBMODULE_EXAMPLE_READER_IMPL_HPP
+#define EXAMPLE_READER_SUBMODULE_EXAMPLE_READER_IMPL_HPP
 
 //
 // AUTO GENERATED - MARKED REGIONS WILL BE KEPT
-// template version 0.0.3
+// template version 0.0.2
 //
 
-#include "ld-ev.hpp"
-
-// headers for provided interface implementations
 #include <generated/example_reader/Implementation.hpp>
 
-// headers for required interface implementations
-#include <generated/example_writer/Interface.hpp>
+#include "../ExampleReader.hpp"
 
-// ev@4bf81b14-a215-475c-a1d3-0a484ae48918:v1
+// ev@75ac1216-19eb-4182-a85c-820f1fc2c091:v1
 // insert your custom include headers here
-// ev@4bf81b14-a215-475c-a1d3-0a484ae48918:v1
+// ev@75ac1216-19eb-4182-a85c-820f1fc2c091:v1
 
 namespace module {
+namespace example_reader_submodule {
 
 struct Conf {};
 
-class CppExampleReader : public Everest::ModuleBase {
+class example_readerImpl : public example_readerImplBase {
 public:
-    CppExampleReader() = delete;
-    CppExampleReader(const ModuleInfo& info,
-                     std::unique_ptr<example_readerImplBase> p_example_reader_submodule,
-                     std::unique_ptr<example_writerIntf> r_example_writer_connection, Conf& config) :
-        ModuleBase(info),
-        p_example_reader_submodule(std::move(p_example_reader_submodule)),
-        r_example_writer_connection(std::move(r_example_writer_connection)),
-        config(config){};
+    example_readerImpl() = delete;
+    example_readerImpl(Everest::ModuleAdapter* ev, const Everest::PtrContainer<ExampleReader>& mod,
+                                     Conf& config) :
+        example_readerImplBase(ev, "example_reader_submodule"), mod(mod), config(config){};
 
-    const Conf& config;
-    const std::unique_ptr<example_readerImplBase> p_example_reader_submodule;
-    const std::unique_ptr<example_writerIntf> r_example_writer_connection;
-
-    // ev@1fce4c5e-0ab8-41bb-90f7-14277703d2ac:v1
+    // ev@8ea32d28-373f-4c90-ae5e-b4fcc74e2a61:v1
     // insert your public definitions here
-    // ev@1fce4c5e-0ab8-41bb-90f7-14277703d2ac:v1
+    // ev@8ea32d28-373f-4c90-ae5e-b4fcc74e2a61:v1
 
 protected:
-    // ev@4714b2ab-a24f-4b95-ab81-36439e1478de:v1
+    // no commands defined for this interface
+
+    // ev@d2d1847a-7b88-41dd-ad07-92785f06f5c4:v1
     // insert your protected definitions here
-    // ev@4714b2ab-a24f-4b95-ab81-36439e1478de:v1
+    // ev@d2d1847a-7b88-41dd-ad07-92785f06f5c4:v1
 
 private:
-    friend class LdEverest;
-    void init();
-    void ready();
+    const Everest::PtrContainer<ExampleReader>& mod;
+    const Conf& config;
 
-    // ev@211cfdbe-f69a-4cd6-a4ec-f8aaa3d1b6c8:v1
+    virtual void init() override;
+    virtual void ready() override;
+
+    // ev@3370e4dd-95f4-47a9-aaec-ea76f34a66c9:v1
     // insert your private definitions here
-    // ev@211cfdbe-f69a-4cd6-a4ec-f8aaa3d1b6c8:v1
+    // ev@3370e4dd-95f4-47a9-aaec-ea76f34a66c9:v1
 };
 
-// ev@087e516b-124c-48df-94fb-109508c7cda9:v1
+// ev@3d7da0ad-02c2-493d-9920-0bbbd56b9876:v1
 // insert other definitions here
-// ev@087e516b-124c-48df-94fb-109508c7cda9:v1
+// ev@3d7da0ad-02c2-493d-9920-0bbbd56b9876:v1
 
+} // namespace example_reader_submodule
 } // namespace module
 
-#endif // EXAMPLE_READER_HPP
+#endif // EXAMPLE_READER_SUBMODULE_EXAMPLE_READER_IMPL_HPP
