@@ -20,9 +20,9 @@ void example_writerImpl::run_writer_loop() {
 
     // module main thread loop
     while (true) {
-
+        EVLOG(debug) << "run_writer_loop: " << counter;
         // do something
-        writer_published_var(4 + (counter++ % 16));
+        publish_writer_published_var(4 + (counter++ % 16));
 
         // suspend until next interval start
         std::this_thread::sleep_for(std::chrono::milliseconds(config.example_writer_tx_interval_ms * _tx_prescaler));

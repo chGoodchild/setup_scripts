@@ -64,10 +64,10 @@ cd $cwd
 # -------------------------
 
 cp cpp/reader/ExampleReader.* ~/checkout/everest-workspace/everest-core/modules/ExampleReader/.
-cp cpp/reader/example_reader_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleReader/.
+cp -r cpp/reader/example_reader_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleReader/.
 
 cp cpp/writer/ExampleWriter.* ~/checkout/everest-workspace/everest-core/modules/ExampleWriter/.
-cp cpp/writer/example_writer_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleWriter/.
+cp -r cpp/writer/example_writer_submodule ~/checkout/everest-workspace/everest-core/modules/ExampleWriter/.
 
 # This is required because the auto generated .cpp and .hpp files have a "js_" prefix, ninja install would crash at [9/13] Linking CXX shared library modules/ExampleWriter/libmodExampleWriter.so
 # cd $cwd

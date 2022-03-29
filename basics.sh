@@ -5,3 +5,5 @@ sudo apt install -y git emacs terminator chromium-browser xournal keepass2 vlc h
 sudo snap install slack --classic
 
 ./arunas_install.sh
+
+sudo snap install --edge odrive
